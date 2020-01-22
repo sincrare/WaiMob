@@ -1,0 +1,7 @@
+%h1 Rooms#show
+%p Find me in app/views/rooms/show.html.haml
+#messages
+  = render @messages
+
+= label_tag :content, 'Say something:'
+= text_field_tag :content, nil, data: { behavior: 'room_speaker' }
