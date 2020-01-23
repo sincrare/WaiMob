@@ -1,8 +1,9 @@
-%h1 Rooms#show
-%p Find me in app/views/rooms/show.html.haml
-
-#messages{data: {room_id: @room.id}}
-  = render @messages
+%h1 Room #{@room.name}
 
 = label_tag :content, 'Say something:'
 = text_field_tag :content, nil, data: { behavior: 'room_speaker' }
+
+#messages{data: {room: {id: @room.id} } }
+  = render @messages
+
+= link_to "ルーム一覧", rooms_path

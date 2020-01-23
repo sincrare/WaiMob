@@ -1,0 +1,8 @@
+= form_with model: @room, local: true do |f|
+  .field
+    名前:
+    = f.text_field :name
+  .field
+    ルームの説明
+    = f.text_field :description
+  = f.submit "作成"
