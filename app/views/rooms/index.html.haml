@@ -1,0 +1,6 @@
+%h1 Rooms#index
+
+%ul
+  - @rooms.each do |room|
+    %li
+      = link_to "ROOM#{room.id}", room_path(room)
