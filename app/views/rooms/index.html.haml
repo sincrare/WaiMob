@@ -3,4 +3,6 @@
 %ul
   - @rooms.each do |room|
     %li
-      = link_to "ROOM#{room.id}", room_path(room)
+      = link_to "ROOM#{room.id}: #{room.name}", room_path(room)
+
+= link_to "ルームを新規作成", new_room_path
