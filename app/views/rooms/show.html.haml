@@ -1,6 +1,7 @@
 %h1 Rooms#show
 %p Find me in app/views/rooms/show.html.haml
-#messages
+
+#messages{data: {room_id: @room.id}}
   = render @messages
 
 = label_tag :content, 'Say something:'
