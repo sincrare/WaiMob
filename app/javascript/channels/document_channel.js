@@ -1,6 +1,6 @@
 import consumer from "./consumer"
 
-consumer.subscriptions.create("DocumentChannel", {
+const documentChannel = consumer.subscriptions.create("DocumentChannel", {
   connected() {
     // Called when the subscription is ready for use on the server
   },
