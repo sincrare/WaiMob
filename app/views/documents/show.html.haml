@@ -3,3 +3,5 @@
 = @document.title
 = @document.content
 
+= label_tag :content, 'Say something:'
+= text_field_tag :content, nil, data: { behavior: 'document_editor' }
