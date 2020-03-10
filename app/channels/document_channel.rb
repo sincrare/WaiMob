@@ -8,7 +8,12 @@ class DocumentChannel < ApplicationCable::Channel
   end
 
   def append(data)
+    # FIXME: どこからIDを取得するか？
+    document = Document.find(1)
+    # FIXME: ここで保存失敗したらどうする？
+    document.append_content!(data['chunk'])
+
     # jsで実行されたspeakのmessageを受け取り、room_channelのreceivedにブロードキャストする
-    ActionCable.server.broadcast 'document_channel', chunk: data['chunk']
+    ActionCable.server.broadcast 'document_channel', chunk: document.content
   end
 end
