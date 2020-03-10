@@ -10,7 +10,8 @@ const documentChannel = consumer.subscriptions.create("DocumentChannel", {
   },
 
   received: function(data) {
-    return alert(data['chunk']);
+    const content = data['content'];
+    $('.js-document-content').val(content);
   },
 
   append: function(chunk) {

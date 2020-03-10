@@ -14,6 +14,6 @@ class DocumentChannel < ApplicationCable::Channel
     document.append_content!(data['chunk'])
 
     # jsで実行されたspeakのmessageを受け取り、room_channelのreceivedにブロードキャストする
-    ActionCable.server.broadcast 'document_channel', chunk: document.content
+    ActionCable.server.broadcast 'document_channel', content: document.content
   end
 end
