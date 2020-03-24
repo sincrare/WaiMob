@@ -3,6 +3,9 @@
 .title
   %h3= @document.title
 
-= label_tag :content, 'Say something:'
-= text_area_tag :content, @document.content, class: 'js-document-content', data: { behavior: 'document_editor' }
-<button class="btn_sync">sync</button>
+- @document.rows.each do |row|
+  %p{id: row.id, class: 'js-document-row'}= row.content
+
+-#= label_tag :content, 'Say something:'
+-#= text_area_tag :content, @document.content, class: 'js-document-content', data: { behavior: 'document_editor' }
+-#<button class="btn_sync">sync</button>
