@@ -3,5 +3,7 @@ if User.count == 0
 end
 
 if Document.count == 0
-  Document.create(title: "first document")
+  document = Document.create(title: "first document")
+  document.rows.create(content: '1行目', number: 1000)
+  document.rows.create(content: '2行目', number: 2000)
 end

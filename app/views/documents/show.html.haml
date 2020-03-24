@@ -4,8 +4,17 @@
   %h3= @document.title
 
 - @document.rows.each do |row|
-  %p{id: row.id, class: 'js-document-row'}= row.content
+  %p{id: row.id, class: 'js-document__row'}= row.content
+= text_field_tag :row_text_box, '', class: 'js-document__row-text-box document__row-text-box document__row-text-box--hide'
 
 -#= label_tag :content, 'Say something:'
 -#= text_area_tag :content, @document.content, class: 'js-document-content', data: { behavior: 'document_editor' }
 -#<button class="btn_sync">sync</button>
+
+:javascript
+  $(document).on("dblclick", ".js-document__row", function(e) {
+    const textBox = $('.js-document__row-text-box')
+
+    textBox.val(e.target.innerText)
+    textBox.toggleClass('document__row-text-box--hide')
+  })
