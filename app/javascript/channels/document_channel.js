@@ -11,7 +11,8 @@ const documentChannel = consumer.subscriptions.create("DocumentChannel", {
 
   received: function (data) {
     const content = data['content'];
-    $('.js-document-content').val(content);
+    const row_id  = data['id'];
+    $(`#${row_id}`).text(content);
   },
 
   append: function (chunk) {
@@ -20,19 +21,26 @@ const documentChannel = consumer.subscriptions.create("DocumentChannel", {
     });
   },
 
-  // MEMO: chunkってかいてるけど、全文
-  sync: function (chunk) {
+  sync: function (content, id) {
+    console.log(content, id)
     return this.perform('sync', {
-      chunk: chunk
+      content,
+      id
     });
   }
 });
 
-$(document).on('keypress', '[data-behavior~=document_editor]', function (event) {
-  if (event.keyCode === 13) {
-    documentChannel.sync(event.target.value);
-    event.target.value = '';
-    return event.preventDefault();
+$(document).on('keypress', '.js-document__row-text-box', function (e) {
+  if (e.keyCode === 13) {
+    console.log(e.target)
+    console.log($(e.target).data("id"))
+    documentChannel.sync(e.target.value, $(e.target).data("id"));
+    e.target.value = '';
+
+    const textBox = $('.js-document__row-text-box')
+    textBox.addClass('document__row-text-box--hide')
+
+    return e.preventDefault();
   }
 });
 
@@ -41,3 +49,16 @@ $(document).on('click', '.btn_sync', function (event) {
   documentChannel.sync(document.querySelector(".js-document-content").value);
   return event.preventDefault();
 });
+
+//
+$(document).on("dblclick", ".js-document__row", function(e) {
+  const textBox = $('.js-document__row-text-box')
+
+  textBox.val(e.target.innerText)
+  textBox.data("id", e.target.id)
+  textBox.removeClass('document__row-text-box--hide')
+
+  // 要素の位置座標を取得
+  var p_rect = e.target.getBoundingClientRect()
+  textBox.offset({ top: p_rect.top, left: p_rect.left })
+})
