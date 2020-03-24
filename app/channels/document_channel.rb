@@ -16,4 +16,14 @@ class DocumentChannel < ApplicationCable::Channel
     # jsで実行されたspeakのmessageを受け取り、room_channelのreceivedにブロードキャストする
     ActionCable.server.broadcast 'document_channel', content: document.content
   end
+
+  def sync(data)
+    # FIXME: どこからIDを取得するか？
+    document = Document.find(1)
+    # FIXME: ここで保存失敗したらどうする？
+    document.sync_content!(data['chunk'])
+
+    # jsで実行されたspeakのmessageを受け取り、room_channelのreceivedにブロードキャストする
+    ActionCable.server.broadcast 'document_channel', content: document.content
+  end
 end
