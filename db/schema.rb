@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_24_122509) do
+ActiveRecord::Schema.define(version: 2020_04_14_130644) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,12 +23,14 @@ ActiveRecord::Schema.define(version: 2020_03_24_122509) do
   end
 
   create_table "rows", force: :cascade do |t|
-    t.integer "number", null: false
     t.text "content", default: "", null: false
     t.bigint "document_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["document_id", "number"], name: "index_rows_on_document_id_and_number", unique: true
+    t.bigint "previous_row_id"
+    t.bigint "next_row_id"
+    t.index ["next_row_id"], name: "index_rows_on_next_row_id"
+    t.index ["previous_row_id"], name: "index_rows_on_previous_row_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -44,4 +46,6 @@ ActiveRecord::Schema.define(version: 2020_03_24_122509) do
   end
 
   add_foreign_key "rows", "documents"
+  add_foreign_key "rows", "rows", column: "next_row_id"
+  add_foreign_key "rows", "rows", column: "previous_row_id"
 end
