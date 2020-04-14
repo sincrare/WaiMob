@@ -3,7 +3,7 @@
 .title
   %h3= @document.title
 
-- @document.rows.each do |row|
+- @document.ordered_rows.each do |row|
   %p{id: row.id, data: { id: row.id }, class: 'js-document__row'}= row.content
 = text_field_tag :row_text_box, '', class: 'js-document__row-text-box document__row-text-box document__row-text-box--hide'
 

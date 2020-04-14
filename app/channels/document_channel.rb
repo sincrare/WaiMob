@@ -32,16 +32,21 @@ class DocumentChannel < ApplicationCable::Channel
     document = Document.first
     new_row = document.rows.build(content: 'newline')
     current_row = document.rows.find(data['id'].to_i)
-    if current_row.present?
-      new_row.previous_row = current_row
-      current_row.next_row = new_row
-      Row.transaction do
-        unless new_row.save && current_row.save
-          raise 'save failed.'
+    next_row = current_row.next_row
+    Row.transaction do
+      if current_row.present?
+        if next_row
+          next_row.previous_row = new_row
+          next_row.save!
         end
+        new_row.previous_row = current_row
+        new_row.next_row = current_row.next_row
+        current_row.next_row = new_row
+        new_row.save!
+        current_row.save!
+      else
+        raise 'current_row is not found.'
       end
-    else
-      raise 'current_row is not found.'
     end
   end
 end

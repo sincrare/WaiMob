@@ -61,6 +61,7 @@ $(document).on('keypress', '.js-document__row-text-box', function (e) {
   if (e.keyCode === 13) {
     // submitRow(e)
     addNewLine(e)
+    location.reload()
     return e.preventDefault();
   }
 });
