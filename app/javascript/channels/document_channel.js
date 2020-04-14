@@ -30,8 +30,7 @@ const documentChannel = consumer.subscriptions.create("DocumentChannel", {
   }
 });
 
-$(document).on('keypress', '.js-document__row-text-box', function (e) {
-  if (e.keyCode === 13) {
+const submitRow = (e) => {
     console.log(e.target)
     console.log($(e.target).data("id"))
     documentChannel.sync(e.target.value, $(e.target).data("id"));
@@ -39,7 +38,11 @@ $(document).on('keypress', '.js-document__row-text-box', function (e) {
 
     const textBox = $('.js-document__row-text-box')
     textBox.addClass('document__row-text-box--hide')
+}
 
+$(document).on('keypress', '.js-document__row-text-box', function (e) {
+  if (e.keyCode === 13) {
+    submitRow(e)
     return e.preventDefault();
   }
 });
