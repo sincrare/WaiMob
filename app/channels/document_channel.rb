@@ -19,11 +19,12 @@ class DocumentChannel < ApplicationCable::Channel
 
   def sync(data)
     # FIXME: どこからIDを取得するか？
-    document = Document.find(1)
-    # FIXME: ここで保存失敗したらどうする？
-    document.sync_content!(data['chunk'])
+    document = Document.last
+    row = document.rows.find(data['id'].to_i)
+    row.content = data['content']
+    row.save!
 
     # jsで実行されたspeakのmessageを受け取り、room_channelのreceivedにブロードキャストする
-    ActionCable.server.broadcast 'document_channel', content: document.content
+    ActionCable.server.broadcast 'document_channel', content: row.content, id: row.id
   end
 end

@@ -13,3 +13,13 @@
  *= require_tree .
  *= require_self
  */
+
+.document__row-text-box
+{
+    position: absolute;
+}
+
+.document__row-text-box--hide
+{
+    display: none;
+}

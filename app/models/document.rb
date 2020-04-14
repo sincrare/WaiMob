@@ -1,4 +1,6 @@
 class Document < ApplicationRecord
+  has_many :rows, dependent: :destroy
+
   def append_content!(chunk)
     self.content += chunk
     save!
