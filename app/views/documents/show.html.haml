@@ -1,7 +1,8 @@
 %h1 Documents#show
 
-= @document.title
-= @document.content
+.title
+  %h3= @document.title
 
 = label_tag :content, 'Say something:'
-= text_field_tag :content, nil, class: 'js-document-content', data: { behavior: 'document_editor' }
+= text_area_tag :content, @document.content, class: 'js-document-content', data: { behavior: 'document_editor' }
+<button class="btn_sync">sync</button>
