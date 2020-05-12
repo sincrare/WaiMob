@@ -27,11 +27,16 @@ const documentChannel = consumer.subscriptions.create("DocumentChannel", {
       content,
       id
     });
+  },
+
+  newline: function (id) {
+    return this.perform('newline', {
+      id
+    });
   }
 });
 
-$(document).on('keypress', '.js-document__row-text-box', function (e) {
-  if (e.keyCode === 13) {
+const submitRow = (e) => {
     console.log(e.target)
     console.log($(e.target).data("id"))
     documentChannel.sync(e.target.value, $(e.target).data("id"));
@@ -39,9 +44,30 @@ $(document).on('keypress', '.js-document__row-text-box', function (e) {
 
     const textBox = $('.js-document__row-text-box')
     textBox.addClass('document__row-text-box--hide')
+}
 
+const addNewLine = (e) => {
+  console.log('new_line')
+  console.log(e.target)
+  console.log($(e.target).data("id"))
+  documentChannel.newline($(e.target).data("id"))
+
+  // TODO: 次の行にテキストボックスを表示させる
+  const textBox = $('.js-document__row-text-box')
+  textBox.addClass('document__row-text-box--hide')
+}
+
+$(document).on('keypress', '.js-document__row-text-box', function (e) {
+  if (e.keyCode === 13) {
+    // submitRow(e)
+    addNewLine(e)
+    location.reload()
     return e.preventDefault();
   }
+});
+
+$(document).on('blur', '.js-document__row-text-box', function (e) {
+  submitRow(e)
 });
 
 // MEMO: textareaでのkeypres処理がわからんので、ボタンで発火させる
