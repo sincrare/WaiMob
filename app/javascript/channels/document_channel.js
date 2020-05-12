@@ -33,6 +33,12 @@ const documentChannel = consumer.subscriptions.create("DocumentChannel", {
     return this.perform('newline', {
       id
     });
+  },
+
+  removeLine: function (id) {
+    return this.perform('remove_line', {
+      id
+    });
   }
 });
 
@@ -57,12 +63,19 @@ const addNewLine = (e) => {
   textBox.addClass('document__row-text-box--hide')
 }
 
-$(document).on('keypress', '.js-document__row-text-box', function (e) {
+const removeLine = (e) => {
+  console.log('remove line')
+  documentChannel.removeLine($(e.target).data("id"))
+}
+
+$(document).on('keyup', '.js-document__row-text-box', function (e) {
+  console.log(e.keyCode)
   if (e.keyCode === 13) {
-    // submitRow(e)
     addNewLine(e)
     location.reload()
     return e.preventDefault();
+  } else if (e.keyCode === 8 && e.currentTarget.value === '') {
+    removeLine(e)
   }
 });
 
