@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_14_130644) do
+ActiveRecord::Schema.define(version: 2020_05_12_124145) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(version: 2020_04_14_130644) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "previous_row_id"
     t.bigint "next_row_id"
+    t.integer "position"
     t.index ["next_row_id"], name: "index_rows_on_next_row_id"
     t.index ["previous_row_id"], name: "index_rows_on_previous_row_id"
   end

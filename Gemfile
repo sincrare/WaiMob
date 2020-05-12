@@ -10,6 +10,7 @@ gem 'sass-rails', '~> 5'
 gem 'webpacker', '~> 4.0'
 gem 'devise'
 gem 'haml-rails'
+gem 'acts_as_list'
 
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
