@@ -34,4 +34,13 @@ class DocumentChannel < ApplicationCable::Channel
     new_row = document.rows.build(content: 'new line')
     new_row.insert_at!(current_row.position + 1)
   end
+
+  def remove_line(data)
+    document = Document.first
+    current_row = document.rows.find(data['id'].to_i)
+    Row.transaction do
+      current_row.remove_from_list
+      current_row.destroy!
+    end
+  end
 end
