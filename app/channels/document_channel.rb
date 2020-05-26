@@ -1,6 +1,6 @@
 class DocumentChannel < ApplicationCable::Channel
   def subscribed
-    stream_from "document_channel"
+    stream_from "document_channel_#{params['document_id']}"
   end
 
   def unsubscribed
@@ -8,35 +8,33 @@ class DocumentChannel < ApplicationCable::Channel
   end
 
   def append(data)
-    # FIXME: どこからIDを取得するか？
-    document = Document.first
+    document = Document.find(params['document_id'])
     # FIXME: ここで保存失敗したらどうする？
     document.append_content!(data['chunk'])
 
     # jsで実行されたspeakのmessageを受け取り、room_channelのreceivedにブロードキャストする
-    ActionCable.server.broadcast 'document_channel', content: document.content
+    ActionCable.server.broadcast "document_channel_#{params['document_id']}", content: document.content
   end
 
   def sync(data)
-    # FIXME: どこからIDを取得するか？
-    document = Document.last
+    document = Document.find(params['document_id'])
     row = document.rows.find(data['id'].to_i)
     row.content = data['content']
     row.save!
 
     # jsで実行されたspeakのmessageを受け取り、room_channelのreceivedにブロードキャストする
-    ActionCable.server.broadcast 'document_channel', content: row.content, id: row.id
+    ActionCable.server.broadcast "document_channel_#{params['document_id']}", content: row.content, id: row.id
   end
 
   def newline(data)
-    document = Document.first
+    document = Document.find(params['document_id'])
     current_row = document.rows.find(data['id'].to_i)
     new_row = document.rows.build(content: 'new line')
     new_row.insert_at!(current_row.position + 1)
   end
 
   def remove_line(data)
-    document = Document.first
+    document = Document.find(params['document_id'])
     current_row = document.rows.find(data['id'].to_i)
     Row.transaction do
       current_row.remove_from_list
