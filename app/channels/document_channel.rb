@@ -31,6 +31,10 @@ class DocumentChannel < ApplicationCable::Channel
     current_row = document.rows.find(data['id'].to_i)
     new_row = document.rows.build(content: 'new line')
     new_row.insert_at!(current_row.position + 1)
+
+    # あたらしい行が入力されたことをブロードキャストする
+    ActionCable.server.broadcast "document_channel_#{params['document_id']}", content: new_row.content, id: new_row.id, position: new_row.position
+
   end
 
   def remove_line(data)
