@@ -18,11 +18,12 @@ $(function() {
       const row_id = data['id'];
       const position = data['position'];
 
-      if (position){
+      if (position) {
+        // TODO: 前の行がなくても追加できるようにする
         const previous_row = $(document.querySelectorAll('.js-document__row')[parseInt(position)-2])
         const new_el = $(`<p id="${row_id}" class="js-document__row">${content}</p>`) 
         previous_row.after(new_el)
-      }else{
+      } else {
         $(`#${row_id}`).text(content);
       }
     },
@@ -84,7 +85,6 @@ $(function() {
     console.log(e.keyCode)
     if (e.keyCode === 13) {
       addNewLine(e)
-      location.reload()
       return e.preventDefault();
     } else if (e.keyCode === 8 && e.currentTarget.value === '') {
       removeLine(e)
