@@ -1,16 +1,14 @@
 .row
   .col-8
-    #js-document{data: {document_id: @document.id}}
+    .document
+      #js-document{data: {document_id: @document.id}}
 
-    %h1 Documents#show
+      .title
+        %h3= @document.title
 
-    .title
-      %h3= @document.title
-
-    - @document.rows.each do |row|
-      %p
-        %span= row.id
-        %span{id: row.id, data: { id: row.id }, class: 'js-document__row'}= row.content
-    = text_field_tag :row_text_box, '', class: 'js-document__row-text-box document__row-text-box document__row-text-box--hide'
+      .document__frame
+        - @document.rows.each do |row|
+          %p{id: row.id, data: { id: row.id }, class: 'js-document__row'}= row.content
+        = text_field_tag :row_text_box, '', class: 'js-document__row-text-box document__row-text-box document__row-text-box--hide'
   .col-4
     %skyway-container{vue_component_props(room_id: @document.token)}
