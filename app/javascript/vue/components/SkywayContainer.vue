@@ -87,12 +87,7 @@ export default {
       const roomId = `waimob_${this.roomId}`;
       const remoteVideos = document.getElementById('js-remote-streams');
 
-      this.localStream = await navigator.mediaDevices
-        .getUserMedia({
-          audio: true,
-          video: true,
-        })
-        .catch(console.error);
+      await this.createLocalStream(false);
 
       this.room = this.peer.joinRoom(roomId, {
         mode: 'sfu',
@@ -133,15 +128,15 @@ export default {
     },
     handleLeave() {
       const localVideo = document.getElementById('js-local-stream');
+      localVideo.srcObject.getTracks().forEach(track => track.stop());
       localVideo.srcObject = null;
-      localVideo.pause();
+      localVideo.remove();
+
+      this.clearLocalStream();
 
       this.room = null;
       this.messages = [];
       this.joined = false;
-
-      // this.localStream.getVideoTracks()[0].stop();
-      // this.localStream = null;
 
       const remoteVideos = document.getElementById('js-remote-streams');
       Array.from(remoteVideos.children).forEach(remoteVideo => {
@@ -171,6 +166,27 @@ export default {
       remoteVideo.remove();
 
       this.messages.push(`${peerId} left`);
+    },
+    async clearLocalStream() {
+      if (this.localStream) {
+        this.localStream.getVideoTracks().forEach((camera) => {
+          camera.stop();
+        });
+        this.localStream.getAudioTracks().forEach((audio) => {
+          audio.stop();
+        });
+
+        this.localStream = null;
+      }
+    },
+    async createLocalStream(audio) {
+      await this.clearLocalStream();
+      this.localStream = await navigator.mediaDevices
+        .getUserMedia({
+          audio: audio,
+          video: true,
+        })
+        .catch(console.error);
     }
   }
 };
