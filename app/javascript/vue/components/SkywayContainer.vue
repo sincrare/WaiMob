@@ -84,8 +84,6 @@ export default {
         return;
       }
 
-      console.log('clicked');
-
       const roomId = `waimob_${this.roomId}`;
       const remoteVideos = document.getElementById('js-remote-streams');
 
@@ -96,48 +94,21 @@ export default {
         })
         .catch(console.error);
 
-      console.log('before joinroom');
       this.room = this.peer.joinRoom(roomId, {
         mode: 'sfu',
         stream: this.localStream,
       });
 
       this.room.once('open', this.handleJoin);
-
+      this.room.once('close', this.handleLeave);
+      this.room.on('stream', this.handleNewStream);
+      this.room.on('peerLeave', this.handlePeerLeave);
       this.room.on('peerJoin', peerId => {
         this.messages.push(`${peerId} joined`);
       });
-
-      // Render remote stream for new peer join in the room
-      this.room.on('stream', async stream => {
-        const newVideo = document.createElement('video');
-        newVideo.srcObject = stream;
-        newVideo.playsInline = true;
-        // mark peerId to find it later at peerLeave event
-        newVideo.setAttribute('data-peer-id', stream.peerId);
-        remoteVideos.append(newVideo);
-        await newVideo.play().catch(console.error);
-      });
-
       this.room.on('data', ({ data, src }) => {
         this.messages.push(`${src}: ${data}`);
       });
-
-      // for closing room members
-      this.room.on('peerLeave', peerId => {
-        const remoteVideo = remoteVideos.querySelector(
-          `[data-peer-id=${peerId}]`
-        );
-        remoteVideo.srcObject.getTracks().forEach(track => track.stop());
-        remoteVideo.srcObject = null;
-        remoteVideo.remove();
-
-        this.messages.push(`${peerId} left`);
-      });
-
-      // for closing myself
-      this.room.once('close', this.handleLeave);
-
     },
     handleClickLeave() {
       if (this.room) {
@@ -178,6 +149,28 @@ export default {
         remoteVideo.srcObject = null;
         remoteVideo.remove();
       });
+    },
+    async handleNewStream(stream) {
+      const remoteVideos = document.getElementById('js-remote-streams');
+      const newVideo = document.createElement('video');
+      newVideo.srcObject = stream;
+      newVideo.playsInline = true;
+      // mark peerId to find it later at peerLeave event
+      newVideo.setAttribute('data-peer-id', stream.peerId);
+      remoteVideos.append(newVideo);
+      await newVideo.play().catch(console.error);
+
+    },
+    handlePeerLeave(peerId) {
+      const remoteVideos = document.getElementById('js-remote-streams');
+      const remoteVideo = remoteVideos.querySelector(
+        `[data-peer-id=${peerId}]`
+      );
+      remoteVideo.srcObject.getTracks().forEach(track => track.stop());
+      remoteVideo.srcObject = null;
+      remoteVideo.remove();
+
+      this.messages.push(`${peerId} left`);
     }
   }
 };
