@@ -7267,10 +7267,10 @@ simple-swizzle@^0.2.2:
   dependencies:
     is-arrayish "^0.3.1"
 
-skyway-js@2.0.5:
-  version "2.0.5"
-  resolved "https://registry.yarnpkg.com/skyway-js/-/skyway-js-2.0.5.tgz#bf1a7715fb293dee34a9760f6a9ef13d0e2d86ec"
-  integrity sha512-dmMxr6tsZmrm9LcVHlWL2tr+zsw2g91plW29lh2Jl+AILQuIlbJfKj3YTnwtnn8cIcnKJxfN7hjSYB/51GMdRw==
+skyway-js@3:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/skyway-js/-/skyway-js-3.0.0.tgz#c5402224810c776d1f59517423899d84d4bef057"
+  integrity sha512-7uoVgJJSL4hQ7d/q2Ms78N5z+JA6F+aT8S3d3djMT7FzRL5nzKtnhywfABVLxA1rTQEdYwMmCq8OcLIkz7/9Jg==
   dependencies:
     "@types/node" "^12.6.8"
     detect-browser "^4.6.0"
@@ -7282,6 +7282,7 @@ skyway-js@2.0.5:
     sdp-interop "^0.1.13"
     sdp-transform "^2.11.0"
     socket.io-client "^2.2.0"
+    socket.io-parser "~3.3.0"
 
 slice-ansi@^2.1.0:
   version "2.1.0"

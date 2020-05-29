@@ -11,7 +11,7 @@
     "dotenv": "^8.2.0",
     "jquery": "^3.4.1",
     "regenerator-runtime": "^0.13.5",
-    "skyway-js": "2.0.5",
+    "skyway-js": "3",
     "turbolinks": "^5.2.0",
     "vue": "^2.6.11",
     "vue-custom-element": "^3.2.14",
