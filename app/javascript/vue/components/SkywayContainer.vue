@@ -25,10 +25,18 @@
             <li v-text="message" />
           </template>
         </ul>
-        <input v-model="localText">
-        <button @click.prevent="handleSendMessage">
-          Send
-        </button>
+        <template v-if="joined">
+          <div class="input-group mb-3">
+            <input v-model="localText" type="text"
+                   class="form-control"
+                   placeholder="message">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" type="button" @click.prevent="handleSendMessage">
+                Send
+              </button>
+            </div>
+          </div>
+        </template>
       </div>
     </div>
   </div>
