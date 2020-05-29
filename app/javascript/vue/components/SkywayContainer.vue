@@ -3,7 +3,15 @@
     <div class="room">
       <div class="mb-3">
         <template v-if="joined">
-          <button id="js-leave-trigger" class="btn btn-warning" @click="handleClickLeave">
+          <button class="btn btn-secondary" @click="handleClickToggleMuted">
+            <span v-if="muted">
+              ミュート解除する
+            </span>
+            <span v-else>
+              ミュートする
+            </span>
+          </button>
+          <button class="btn btn-danger" @click="handleClickLeave">
             Leave
           </button>
         </template>
@@ -60,7 +68,8 @@ export default {
       messages: [],
       streams: [],
       localText: '',
-      joined: false
+      joined: false,
+      muted: true
     };
   },
   computed: {
@@ -87,7 +96,7 @@ export default {
       const roomId = `waimob_${this.roomId}`;
       const remoteVideos = document.getElementById('js-remote-streams');
 
-      await this.createLocalStream(false);
+      await this.createLocalStream();
 
       this.room = this.peer.joinRoom(roomId, {
         mode: 'sfu',
@@ -109,6 +118,10 @@ export default {
       if (this.room) {
         this.room.close();
       }
+    },
+    handleClickToggleMuted() {
+      this.muted = !this.muted;
+      this.localStream.getAudioTracks().forEach(track => track.enabled = !this.muted);
     },
     handleSendMessage() {
       this.room.send(this.localText);
@@ -179,16 +192,17 @@ export default {
         this.localStream = null;
       }
     },
-    async createLocalStream(audio) {
+    async createLocalStream() {
       await this.clearLocalStream();
       this.localStream = await navigator.mediaDevices
         .getUserMedia({
-          audio: audio,
+          audio: true,
           video: {
             width: 200, height: 150,
           }
         })
         .catch(console.error);
+      this.localStream.getAudioTracks().forEach(track => track.enabled = false);
     }
   }
 };
