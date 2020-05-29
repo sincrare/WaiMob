@@ -5,29 +5,7 @@
 .title
   %h3= @document.title
 
-%skyway-container
-
--# .container
--#   %h1.heading Room example
--#   %p.note
--#     Change Room mode (before join in a room):
--#     %a{:href => "#"} mesh
--#     \/
--#     %a{:href => "#sfu"} sfu
--#   .room
--#     %div
--#       %video#js-local-stream
--#       = succeed ":" do
--#         %span#js-room-mode
--#       %input#js-room-id{:placeholder => "Room Name", :type => "text"}/
--#       %button#js-join-trigger Join
--#       %button#js-leave-trigger Leave
--#     #js-remote-streams.remote-streams
--#     %div
--#       %pre#js-messages.messages
--#       %input#js-local-text{:type => "text"}/
--#       %button#js-send-trigger Send
--#   %p#js-meta.meta
+%skyway-container{vue_component_props(room_id: @document.token)}
 
 - @document.rows.each do |row|
   %p

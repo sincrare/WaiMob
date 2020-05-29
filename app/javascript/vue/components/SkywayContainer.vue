@@ -39,12 +39,14 @@
 import Vue from 'vue';
 import 'skyway-js';
 
-const peer = new Peer({key: process.env.SKYWAY_KEY, debug: 3});
-
 export default {
   components: {
   },
   props: {
+    roomId: {
+      type: String,
+      required: true,
+    }
   },
   data() {
     return {
@@ -58,7 +60,10 @@ export default {
   created() {
   },
   async mounted() {
-    const roomId = `document_${1}`; // 仮決め
+    const email = window.APP.rails.user.email;
+    this.peer = new Peer(email, {key: process.env.SKYWAY_KEY, debug: 3});
+
+    const roomId = `waimob_${this.roomId}`; // 仮決め
 
     const localVideo = document.getElementById('js-local-stream');
     const joinTrigger = document.getElementById('js-join-trigger');
@@ -84,11 +89,11 @@ export default {
     joinTrigger.addEventListener('click', () => {
     // Note that you need to ensure the peer has connected to signaling server
     // before using methods of peer instance.
-      if (!peer.open) {
+      if (!this.peer.open) {
         return;
       }
 
-      this.room = peer.joinRoom(roomId, {
+      this.room = this.peer.joinRoom(roomId, {
         mode: 'sfu',
         stream: this.localStream,
       });
@@ -113,7 +118,7 @@ export default {
 
       this.room.on('data', ({ data, src }) => {
       // Show a message sent to the room and who sent
-        messages.textContent += `${src}: ${data}\n`;
+        this.messages.push(`${src}: ${data}`);
       });
 
       // for closing room members
@@ -147,12 +152,12 @@ export default {
       });
     });
 
-    peer.on('error', console.error);
+    this.peer.on('error', console.error);
   },
   methods: {
     handleSendMessage() {
       this.room.send(this.localText);
-      this.messages.push(`${peer.id}: ${this.localText}`);
+      this.messages.push(`${this.peer.id}: ${this.localText}`);
       this.localText = '';
     }
   },
