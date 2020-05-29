@@ -92,7 +92,7 @@ export default {
       this.room.once('open', this.handleJoin);
 
       this.room.on('peerJoin', peerId => {
-        this.messages.push(`=== ${peerId} joined ===`);
+        this.messages.push(`${peerId} joined`);
       });
 
       // Render remote stream for new peer join in the room
@@ -107,7 +107,6 @@ export default {
       });
 
       this.room.on('data', ({ data, src }) => {
-        // Show a message sent to the room and who sent
         this.messages.push(`${src}: ${data}`);
       });
 
@@ -120,7 +119,7 @@ export default {
         remoteVideo.srcObject = null;
         remoteVideo.remove();
 
-        this.messages.push(`=== ${peerId} left ===`);
+        this.messages.push(`${peerId} left`);
       });
 
       // for closing myself
@@ -156,7 +155,7 @@ export default {
       localVideo.srcObject = null;
       localVideo.pause();
 
-      this.messages.push('`${this.yourName} left`');
+      this.messages.push(`${this.yourName} left`);
       this.room = null;
       this.joined = false;
 
