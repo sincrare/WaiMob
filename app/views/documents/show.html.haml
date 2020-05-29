@@ -5,31 +5,32 @@
 .title
   %h3= @document.title
 
-.container
-  %h1.heading Room example
-  %p.note
-    Change Room mode (before join in a room):
-    %a{:href => "#"} mesh
-    \/
-    %a{:href => "#sfu"} sfu
-  .room
-    %div
-      %video#js-local-stream
-      = succeed ":" do
-        %span#js-room-mode
-      %input#js-room-id{:placeholder => "Room Name", :type => "text"}/
-      %button#js-join-trigger Join
-      %button#js-leave-trigger Leave
-    #js-remote-streams.remote-streams
-    %div
-      %pre#js-messages.messages
-      %input#js-local-text{:type => "text"}/
-      %button#js-send-trigger Send
-  %p#js-meta.meta
+%skyway-container
+
+-# .container
+-#   %h1.heading Room example
+-#   %p.note
+-#     Change Room mode (before join in a room):
+-#     %a{:href => "#"} mesh
+-#     \/
+-#     %a{:href => "#sfu"} sfu
+-#   .room
+-#     %div
+-#       %video#js-local-stream
+-#       = succeed ":" do
+-#         %span#js-room-mode
+-#       %input#js-room-id{:placeholder => "Room Name", :type => "text"}/
+-#       %button#js-join-trigger Join
+-#       %button#js-leave-trigger Leave
+-#     #js-remote-streams.remote-streams
+-#     %div
+-#       %pre#js-messages.messages
+-#       %input#js-local-text{:type => "text"}/
+-#       %button#js-send-trigger Send
+-#   %p#js-meta.meta
 
 - @document.rows.each do |row|
   %p
     %span= row.id
     %span{id: row.id, data: { id: row.id }, class: 'js-document__row'}= row.content
 = text_field_tag :row_text_box, '', class: 'js-document__row-text-box document__row-text-box document__row-text-box--hide'
-
