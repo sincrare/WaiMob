@@ -184,7 +184,9 @@ export default {
       this.localStream = await navigator.mediaDevices
         .getUserMedia({
           audio: audio,
-          video: true,
+          video: {
+            width: 200, height: 150,
+          }
         })
         .catch(console.error);
     }
