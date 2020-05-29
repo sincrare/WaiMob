@@ -30,6 +30,7 @@
     position: absolute;
     border:none;
     outline: none;
+    width: calc(100% - 100px);
 }
 
 .document__row-text-box--hide
