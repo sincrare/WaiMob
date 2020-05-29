@@ -1,4 +1,4 @@
-import Peer from 'skyway-js';
+import 'skyway-js';
 
 $(async function () {
   const localVideo = document.getElementById('js-local-stream');
@@ -39,12 +39,7 @@ $(async function () {
   localVideo.playsInline = true;
   await localVideo.play().catch(console.error);
 
-  const peer = new Peer({key: '*********', debug: 3});
-  // // eslint-disable-next-line require-atomic-updates
-  // const peer = (window.peer = new Peer({
-  //   key: window.__SKYWAY_KEY__,
-  //   debug: 3,
-  // }));
+  const peer = new Peer({key: process.env.SKYWAY_KEY, debug: 3});
 
   // Register join handler
   joinTrigger.addEventListener('click', () => {
