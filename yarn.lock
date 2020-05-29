@@ -811,6 +811,15 @@
     webpack-cli "^3.3.10"
     webpack-sources "^1.4.3"
 
+"@sonicgarden/vue-custom-element-rails@^0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@sonicgarden/vue-custom-element-rails/-/vue-custom-element-rails-0.2.1.tgz#1c57402f96a73b4607dfbf5b181e52964783ee94"
+  integrity sha512-Hr7LMBUKUE0qRrZRHjPsLpp8FY3vwZD6OhKNhx6HBarP5u+ET73YEFyxjY9/O6Ndo8B8LNQ3D3wj6EBOQLffnA==
+  dependencies:
+    document-register-element "^1.13.2"
+    lodash.camelcase "^4.3.0"
+    vue-custom-element "^3.2.12"
+
 "@types/events@*":
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/@types/events/-/events-3.0.0.tgz#2862f3f58a9a7f7c3e78d79f130dd4d71c25c2a7"
@@ -2050,6 +2059,11 @@ core-js-compat@^3.6.2:
     browserslist "^4.8.3"
     semver "7.0.0"
 
+core-js@3:
+  version "3.6.5"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.6.5.tgz#7395dc273af37fb2e50e9bd3d9fe841285231d1a"
+  integrity sha512-vZVEEwZoIsI+vPEuoF9Iqf5H7/M3eeQqWlQnYa8FSKKePuYTf5MWnxb5SDAzCa60b3JBRS5g9b+Dq7b1y/RCrA==
+
 core-js@^3.4.0:
   version "3.6.4"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.6.4.tgz#440a83536b458114b9cb2ac1580ba377dc470647"
@@ -2519,6 +2533,13 @@ dns-txt@^2.0.2:
   integrity sha1-uR2Ab10nGI5Ks+fRB9iBocxGQrY=
   dependencies:
     buffer-indexof "^1.0.0"
+
+document-register-element@^1.13.2:
+  version "1.14.3"
+  resolved "https://registry.yarnpkg.com/document-register-element/-/document-register-element-1.14.3.tgz#3335d4578df6a1536a34595b91cca36dd5db61d7"
+  integrity sha512-SbJTzoQXLTcYxnpdDNRZXu/gwsGSShemXpvj6Pa6ujRwJFpJ41siil4tk4y+cQXnqylS6mc2Rtxp/PkMzfkqyQ==
+  dependencies:
+    lightercollective "^0.3.0"
 
 dom-serializer@0:
   version "0.2.2"
@@ -4155,6 +4176,11 @@ levenary@^1.1.0:
   dependencies:
     leven "^3.1.0"
 
+lightercollective@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/lightercollective/-/lightercollective-0.3.0.tgz#1f07638642ec645d70bdb69ab2777676f35a28f0"
+  integrity sha512-RFOLSUVvwdK3xA0P8o6G7QGXLIyy1L2qv5caEI7zXN5ciaEjbAriRF182kbsoJ1S1TgvpyGcN485fMky6qxOPw==
+
 lines-and-columns@^1.1.6:
   version "1.1.6"
   resolved "https://registry.yarnpkg.com/lines-and-columns/-/lines-and-columns-1.1.6.tgz#1c00c743b433cd0a4e80758f7b64a57440d9ff00"
@@ -4204,6 +4230,11 @@ lodash._reinterpolate@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/lodash._reinterpolate/-/lodash._reinterpolate-3.0.0.tgz#0ccf2d89166af03b3663c796538b75ac6e114d9d"
   integrity sha1-DM8tiRZq8Ds2Y8eWU4t1rG4RTZ0=
+
+lodash.camelcase@^4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/lodash.camelcase/-/lodash.camelcase-4.3.0.tgz#b28aa6288a2b9fc651035c7711f65ab6190331a6"
+  integrity sha1-soqmKIorn8ZRA1x3EfZathkDMaY=
 
 lodash.get@^4.0:
   version "4.4.2"
@@ -6169,6 +6200,11 @@ regenerator-runtime@^0.13.2, regenerator-runtime@^0.13.3:
   resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.13.3.tgz#7cf6a77d8f5c6f60eb73c5fc1955b2ceb01e6bf5"
   integrity sha512-naKIZz2GQ8JWh///G7L3X6LaQUAMp2lvb1rvwwsURe/VXwD6VMfr+/1NuNw3ag8v2kY1aQ/go5SNn79O9JU7yw==
 
+regenerator-runtime@^0.13.5:
+  version "0.13.5"
+  resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.13.5.tgz#d878a1d094b4306d10b9096484b33ebd55e26697"
+  integrity sha512-ZS5w8CpKFinUzOwW3c83oPeVXoNsrLsaCoLtJvAClH135j/R77RuymhiSErhm2lKcwSCIpmvIWSbDkIfAqKQlA==
+
 regenerator-transform@^0.14.0:
   version "0.14.1"
   resolved "https://registry.yarnpkg.com/regenerator-transform/-/regenerator-transform-0.14.1.tgz#3b2fce4e1ab7732c08f665dfdb314749c7ddd2fb"
@@ -7443,6 +7479,16 @@ vm-browserify@^1.0.1:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/vm-browserify/-/vm-browserify-1.1.2.tgz#78641c488b8e6ca91a75f511e7a3b32a86e5dda0"
   integrity sha512-2ham8XPWTONajOR0ohOKOHXkm3+gaBmGut3SRuu75xLd/RRaY6vqgh8NBYYk7+RW3u5AtzPQZG8F10LHkl0lAQ==
+
+vue-custom-element@^3.2.12, vue-custom-element@^3.2.14:
+  version "3.2.14"
+  resolved "https://registry.yarnpkg.com/vue-custom-element/-/vue-custom-element-3.2.14.tgz#fc4987ed4e1742bcb4e70a669d5060fc2c42bc25"
+  integrity sha512-IZYYsqyF1wC7hFm2g6gkf7lXp9hFau+po6dL0JTaMvSglsAgnowcbkpaOUl8exC7Bs6Ir9smJSXmKGFapml6TA==
+
+vue-disable-interpolation@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/vue-disable-interpolation/-/vue-disable-interpolation-0.0.2.tgz#69c420c2069d09a02421313eeaf7cc2f6788f571"
+  integrity sha1-acQgwgadCaAkITE+6vfML2eI9XE=
 
 vue-hot-reload-api@^2.3.0:
   version "2.3.4"

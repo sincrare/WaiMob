@@ -12,6 +12,7 @@ gem 'devise'
 gem 'haml-rails'
 gem 'acts_as_list'
 gem 'dotenv-rails'
+gem 'vue_custom_element_rails', github: 'SonicGarden/vue-custom-element-rails'
 
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
