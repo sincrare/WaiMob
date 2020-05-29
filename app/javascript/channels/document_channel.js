@@ -111,6 +111,6 @@ $(function() {
 
     // 要素の位置座標を取得
     var p_rect = e.target.getBoundingClientRect()
-    textBox.offset({ top: p_rect.top, left: p_rect.left })
+    textBox.offset({ top: p_rect.top - 1, left: p_rect.left - 1 })
   })
 })

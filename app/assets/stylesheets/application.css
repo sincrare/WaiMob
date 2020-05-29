@@ -14,9 +14,22 @@
  *= require_self
  */
 
+.document
+{
+    padding: 20px;
+}
+
+.document__frame
+{
+    border: 1px solid #bbb;
+    padding: 10px;
+}
+
 .document__row-text-box
 {
     position: absolute;
+    border:none;
+    outline: none;
 }
 
 .document__row-text-box--hide
