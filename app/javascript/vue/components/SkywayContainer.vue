@@ -8,7 +8,7 @@
           </button>
         </template>
         <template v-else>
-          <button id="js-join-trigger" class="btn btn-primary">
+          <button class="btn btn-primary" @click="handleClickJoin">
             Join
           </button>
         </template>
@@ -71,27 +71,32 @@ export default {
   created() {
   },
   async mounted() {
-    this.peer = new Peer(window.APP.rails.user.name, {key: window.APP.rails.skyway_key, debug: 3});
-
-    const roomId = `waimob_${this.roomId}`;
-    const joinTrigger = document.getElementById('js-join-trigger');
-    const remoteVideos = document.getElementById('js-remote-streams');
-
-    this.localStream = await navigator.mediaDevices
-      .getUserMedia({
-        audio: true,
-        video: true,
-      })
-      .catch(console.error);
-
-    // Register join handler
-    joinTrigger.addEventListener('click', () => {
-      // Note that you need to ensure the peer has connected to signaling server
-      // before using methods of peer instance.
+    this.peer = new Peer(window.APP.rails.user.name, {key: window.APP.rails.skyway_key, debug: 1});
+    this.peer.on('error', (e) => {
+      console.error(e);
+      this.room = null;
+      this.localStream = null;
+    });
+  },
+  methods: {
+    async handleClickJoin() {
       if (!this.peer.open) {
         return;
       }
 
+      console.log('clicked');
+
+      const roomId = `waimob_${this.roomId}`;
+      const remoteVideos = document.getElementById('js-remote-streams');
+
+      this.localStream = await navigator.mediaDevices
+        .getUserMedia({
+          audio: true,
+          video: true,
+        })
+        .catch(console.error);
+
+      console.log('before joinroom');
       this.room = this.peer.joinRoom(roomId, {
         mode: 'sfu',
         stream: this.localStream,
@@ -132,11 +137,8 @@ export default {
 
       // for closing myself
       this.room.once('close', this.handleLeave);
-    });
 
-    this.peer.on('error', console.error);
-  },
-  methods: {
+    },
     handleClickLeave() {
       if (this.room) {
         this.room.close();
@@ -163,9 +165,12 @@ export default {
       localVideo.srcObject = null;
       localVideo.pause();
 
-      this.messages.push(`${this.yourName} left`);
       this.room = null;
+      this.messages = [];
       this.joined = false;
+
+      // this.localStream.getVideoTracks()[0].stop();
+      // this.localStream = null;
 
       const remoteVideos = document.getElementById('js-remote-streams');
       Array.from(remoteVideos.children).forEach(remoteVideo => {
