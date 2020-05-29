@@ -1,31 +1,30 @@
 <template>
-  <div class="container">
-    <h1 class="heading">
-      Room example
-    </h1>
-    <p class="note">
-      Change Room mode (before join in a room):
-      <a href="#">mesh</a> / <a href="#sfu">sfu</a>
-    </p>
+  <div class="container p-3">
     <div class="room">
-      <div>
+      <div class="mb-3">
+        <template v-if="joined">
+          <button id="js-leave-trigger" class="btn btn-warning" @click="handleClickLeave">
+            Leave
+          </button>
+        </template>
+        <template v-else>
+          <button id="js-join-trigger" class="btn btn-primary">
+            Join
+          </button>
+        </template>
+      </div>
+      <div v-show="joined">
         <video id="js-local-stream" />
-        <button id="js-join-trigger">
-          Join
-        </button>
-        <button id="js-leave-trigger">
-          Leave
-        </button>
       </div>
 
       <div id="js-remote-streams" class="remote-streams" />
 
       <div>
-        <pre class="messages">
+        <ul class="list-unstyled">
           <template v-for="message in messages">
-            <span v-text="message" />
+            <li v-text="message" />
           </template>
-        </pre>
+        </ul>
         <input v-model="localText">
         <button @click.prevent="handleSendMessage">
           Send
@@ -53,6 +52,7 @@ export default {
       messages: [],
       streams: [],
       localText: '',
+      joined: false
     };
   },
   computed: {
@@ -63,14 +63,9 @@ export default {
     const email = window.APP.rails.user.email;
     this.peer = new Peer(email, {key: process.env.SKYWAY_KEY, debug: 3});
 
-    const roomId = `waimob_${this.roomId}`; // 仮決め
-
-    const localVideo = document.getElementById('js-local-stream');
+    const roomId = `waimob_${this.roomId}`;
     const joinTrigger = document.getElementById('js-join-trigger');
-    const leaveTrigger = document.getElementById('js-leave-trigger');
     const remoteVideos = document.getElementById('js-remote-streams');
-    const localText = document.getElementById('js-local-text');
-    const sendTrigger = document.getElementById('js-send-trigger');
 
     this.localStream = await navigator.mediaDevices
       .getUserMedia({
@@ -79,16 +74,10 @@ export default {
       })
       .catch(console.error);
 
-    // Render local stream
-    localVideo.muted = true;
-    localVideo.srcObject = this.localStream;
-    localVideo.playsInline = true;
-    await localVideo.play().catch(console.error);
-
     // Register join handler
     joinTrigger.addEventListener('click', () => {
-    // Note that you need to ensure the peer has connected to signaling server
-    // before using methods of peer instance.
+      // Note that you need to ensure the peer has connected to signaling server
+      // before using methods of peer instance.
       if (!this.peer.open) {
         return;
       }
@@ -98,9 +87,8 @@ export default {
         stream: this.localStream,
       });
 
-      this.room.once('open', () => {
-        this.messages.push('=== You joined ===');
-      });
+      this.room.once('open', this.handleJoin);
+
       this.room.on('peerJoin', peerId => {
         this.messages.push(`=== ${peerId} joined ===`);
       });
@@ -117,7 +105,7 @@ export default {
       });
 
       this.room.on('data', ({ data, src }) => {
-      // Show a message sent to the room and who sent
+        // Show a message sent to the room and who sent
         this.messages.push(`${src}: ${data}`);
       });
 
@@ -134,32 +122,55 @@ export default {
       });
 
       // for closing myself
-      this.room.once('close', () => {
-        this.messages.push('== You left ===');
-        Array.from(remoteVideos.children).forEach(remoteVideo => {
-          remoteVideo.srcObject.getTracks().forEach(track => track.stop());
-          remoteVideo.srcObject = null;
-          remoteVideo.remove();
-        });
-      });
-
-      leaveTrigger.addEventListener('click', () => {
-        if (this.room) {
-          console.log('click leave');
-          this.room.close();
-          this.room = null;
-        }
-      });
+      this.room.once('close', this.handleLeave);
     });
 
     this.peer.on('error', console.error);
   },
   methods: {
+    handleClickLeave() {
+      if (this.room) {
+        this.room.close();
+      }
+    },
     handleSendMessage() {
       this.room.send(this.localText);
       this.messages.push(`${this.peer.id}: ${this.localText}`);
       this.localText = '';
+    },
+    handleJoin() {
+      this.joined = true;
+      this.messages.push('=== You joined ===');
+
+      // Render local stream
+      const localVideo = document.getElementById('js-local-stream');
+      localVideo.muted = true;
+      localVideo.srcObject = this.localStream;
+      localVideo.playsInline = true;
+      localVideo.play().catch(console.error);
+    },
+    handleLeave() {
+      const localVideo = document.getElementById('js-local-stream');
+      const remoteVideos = document.getElementById('js-remote-streams');
+
+      this.messages.push('== You left ===');
+      this.room = null;
+      this.joined = false;
+      localVideo.srcObject = null;
+      localVideo.stop();
+
+      Array.from(remoteVideos.children).forEach(remoteVideo => {
+        remoteVideo.srcObject.getTracks().forEach(track => track.stop());
+        remoteVideo.srcObject = null;
+        remoteVideo.remove();
+      });
     }
-  },
+  }
 };
 </script>
+
+<style lang="scss" scope>
+video {
+  width: 200px;
+}
+</style>
