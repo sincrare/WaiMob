@@ -56,12 +56,14 @@ export default {
     };
   },
   computed: {
+    yourName() {
+      return window.APP.rails.user.name;
+    }
   },
   created() {
   },
   async mounted() {
-    const email = window.APP.rails.user.email;
-    this.peer = new Peer(email, {key: process.env.SKYWAY_KEY, debug: 3});
+    this.peer = new Peer(window.APP.rails.user.name, {key: window.APP.rails.skyway_key, debug: 3});
 
     const roomId = `waimob_${this.roomId}`;
     const joinTrigger = document.getElementById('js-join-trigger');
@@ -140,7 +142,7 @@ export default {
     },
     handleJoin() {
       this.joined = true;
-      this.messages.push('=== You joined ===');
+      this.messages.push(`${this.yourName} joined`);
 
       // Render local stream
       const localVideo = document.getElementById('js-local-stream');
@@ -151,14 +153,14 @@ export default {
     },
     handleLeave() {
       const localVideo = document.getElementById('js-local-stream');
-      const remoteVideos = document.getElementById('js-remote-streams');
+      localVideo.srcObject = null;
+      localVideo.pause();
 
-      this.messages.push('== You left ===');
+      this.messages.push('`${this.yourName} left`');
       this.room = null;
       this.joined = false;
-      localVideo.srcObject = null;
-      localVideo.stop();
 
+      const remoteVideos = document.getElementById('js-remote-streams');
       Array.from(remoteVideos.children).forEach(remoteVideo => {
         remoteVideo.srcObject.getTracks().forEach(track => track.stop());
         remoteVideo.srcObject = null;
