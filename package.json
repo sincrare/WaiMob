@@ -6,11 +6,29 @@
     "@rails/activestorage": "^6.0.0-alpha",
     "@rails/ujs": "^6.0.0-alpha",
     "@rails/webpacker": "^4.2.2",
+    "@sonicgarden/vue-custom-element-rails": "^0.2.1",
+    "bootstrap": "^4.5.0",
+    "core-js": "3",
+    "dotenv": "^8.2.0",
     "jquery": "^3.4.1",
-    "turbolinks": "^5.2.0"
+    "node-sass": "^4.14.1",
+    "popper.js": "^1.16.1",
+    "regenerator-runtime": "^0.13.5",
+    "sass-loader": "^8.0.2",
+    "skyway-js": "3",
+    "turbolinks": "^5.2.0",
+    "vue": "^2.6.11",
+    "vue-custom-element": "^3.2.14",
+    "vue-disable-interpolation": "^0.0.2",
+    "vue-loader": "^15.9.2",
+    "vue-template-compiler": "^2.6.11"
   },
   "version": "0.1.0",
   "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.1.0",
+    "eslint-plugin-vue": "^6.2.2",
+    "eslint_d": "^8.1.1",
     "webpack-dev-server": "^3.10.1"
   }
 }

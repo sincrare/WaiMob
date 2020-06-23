@@ -11,6 +11,8 @@ gem 'webpacker', '~> 4.0'
 gem 'devise'
 gem 'haml-rails'
 gem 'acts_as_list'
+gem 'dotenv-rails'
+gem 'vue_custom_element_rails', github: 'SonicGarden/vue-custom-element-rails'
 
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
@@ -21,6 +23,7 @@ gem 'bootsnap', '>= 1.4.2', require: false
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'pry-byebug'
 end
 
 group :development do

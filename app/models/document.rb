@@ -1,5 +1,6 @@
 class Document < ApplicationRecord
   has_many :rows, -> { order(position: :asc) }, dependent: :destroy
+  has_secure_token
 
   def append_content!(chunk)
     self.content += chunk
