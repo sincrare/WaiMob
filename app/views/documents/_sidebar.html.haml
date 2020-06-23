@@ -1,0 +1,2 @@
+- if @document.token && ENV['SKYWAY_KEY']
+  %skyway-container{vue_component_props(room_id: @document.token)}

@@ -1,15 +1,15 @@
+= content_for(:title, @document.title)
 .row
-  .col-8
-    .document
-      #js-document{data: {document_id: @document.id}}
+  .col-md-8
+    %main
+      .document
+        #js-document{data: {document_id: @document.id}}
 
-      .title
-        %h3= @document.title
+        .document__frame
+          - @document.rows.each do |row|
+            %p{id: row.id, data: { id: row.id }, class: 'js-document__row'}= row.content
+          = text_field_tag :row_text_box, '', class: 'js-document__row-text-box document__row-text-box document__row-text-box--hide'
+  .col-md-4
+    %aside
+      = render 'sidebar'
 
-      .document__frame
-        - @document.rows.each do |row|
-          %p{id: row.id, data: { id: row.id }, class: 'js-document__row'}= row.content
-        = text_field_tag :row_text_box, '', class: 'js-document__row-text-box document__row-text-box document__row-text-box--hide'
-  .col-4
-    - if @document.token && ENV['SKYWAY_KEY']
-      %skyway-container{vue_component_props(room_id: @document.token)}

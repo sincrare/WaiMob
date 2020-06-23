@@ -1,4 +1,8 @@
-%h1 Documents#index
-
-- @documents.each do |document|
-  = link_to document.title, document
+%main
+  .container.py-3
+    %h1.h3 ドキュメント一覧
+    %table.table.table-striped
+      - @documents.each do |document|
+        %tr
+          %td
+            = link_to document.title, document
