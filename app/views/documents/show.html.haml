@@ -11,4 +11,5 @@
           %p{id: row.id, data: { id: row.id }, class: 'js-document__row'}= row.content
         = text_field_tag :row_text_box, '', class: 'js-document__row-text-box document__row-text-box document__row-text-box--hide'
   .col-4
-    %skyway-container{vue_component_props(room_id: @document.token)}
+    - if @document.token && ENV['SKYWAY_KEY']
+      %skyway-container{vue_component_props(room_id: @document.token)}
